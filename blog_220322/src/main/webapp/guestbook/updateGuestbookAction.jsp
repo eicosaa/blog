@@ -6,21 +6,25 @@
 	// 인코딩
 	request.setCharacterEncoding("utf-8");	
 
+	// 요청값
+	int guestbookNo = Integer.parseInt(request.getParameter("guestbookNo"));
+	String guestbookContent = request.getParameter("guestbookContent");
+	String guestbookPw = request.getParameter("guestbookPw");	
+	
+	// -받은 요청값 하나로 묶기
+	Guestbook guestbook = new Guestbook();
+	guestbook.setGuestbookNo(guestbookNo);
+	guestbook.setGuestbookPw(guestbookPw);
+	guestbook.setGuestbookContent(guestbookContent);
+	
 	// -메소드 호출
 	GuestbookDao guestbookDao = new GuestbookDao();
-	Guestbook guestbook = new Guestbook();
-	
-	// 요청값
-	guestbook.guestbookContent = request.getParameter("guestbookContent");	
-	guestbook.guestbookNo = Integer.parseInt(request.getParameter("guestbookNo"));	
-	guestbook.guestbookPw = request.getParameter("guestbookPw");	
-	
 	guestbookDao.updateGuestbook(guestbook);
 		
 	// -디버깅 코드
-	System.out.println("[updateGuestbookAction.jsp] guestbookContent : " + guestbook.guestbookContent);
-	System.out.println("[updateGuestbookAction.jsp] guestbookNo : " + guestbook.guestbookNo);
-	System.out.println("[updateGuestbookAction.jsp] guestbookPw : " + guestbook.guestbookPw);
+	System.out.println("[updateGuestbookAction.jsp] guestbookContent : " + guestbookContent);
+	System.out.println("[updateGuestbookAction.jsp] guestbookNo : " + guestbookNo);
+	System.out.println("[updateGuestbookAction.jsp] guestbookPw : " + guestbookPw);
 
 	// -페이지 이동
 	response.sendRedirect(request.getContextPath()+"/guestbook/guestbookList.jsp");

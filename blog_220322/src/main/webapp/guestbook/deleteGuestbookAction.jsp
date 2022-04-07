@@ -28,7 +28,7 @@
 	}
 		
 	// -디버깅 코드
-	System.out.println("[deleteGuestbookAction.jsp] guestbookNo : " + guestbook.guestbookNo);
-	System.out.println("[deleteGuestbookAction.jsp] guestbookPw : " + guestbook.guestbookPw);
+	System.out.println("[deleteGuestbookAction.jsp] guestbookNo : " + guestbook.getGuestbookNo());
+	System.out.println("[deleteGuestbookAction.jsp] guestbookPw : " + guestbook.getGuestbookPw());
 	System.out.println("[deleteGuestbookAction.jsp] row : " + row);
 %>

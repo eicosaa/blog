@@ -8,8 +8,8 @@
 	Guestbook guestbook = guestbookDao.selectGuestbookOne(guestbookNo);
 	
 	// 디버깅
-    System.out.println("[deleteGuestbookForm.jsp] guestbookNo : " + guestbook.guestbookNo);
-    System.out.println("[deleteGuestbookForm.jsp] guestbookPw : " + guestbook.guestbookPw);
+    System.out.println("[deleteGuestbookForm.jsp] guestbookNo : " + guestbook.getGuestbookNo());
+    System.out.println("[deleteGuestbookForm.jsp] guestbookPw : " + guestbook.getGuestbookPw());
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +31,7 @@
 		<table class = "table table-active">
 			<tr>
 				<td>글 번호</td>
-				<td><input type = "text" name = "guestbookNo" value = "<%= guestbook.guestbookNo %>"class="form-control" readonly></td>
+				<td><input type = "text" name = "guestbookNo" value = "<%= guestbook.getGuestbookNo() %>"class="form-control" readonly></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>

@@ -32,7 +32,7 @@
 		<table class = "table table-active">
 			<tr>
 				<td>글 번호</td>
-				<td><input type = "text" name = "guestbookNo" value = "<%= guestbook.guestbookNo %>" class="form-control" readonly></td>
+				<td><input type = "text" name = "guestbookNo" value = "<%= guestbook.getGuestbookNo() %>" class="form-control" readonly></td>
 			</tr>
 			<tr>
 				<td>내용</td>
