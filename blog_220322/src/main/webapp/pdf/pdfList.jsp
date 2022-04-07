@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.ArrayList" %>    
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
@@ -41,7 +40,7 @@
 		<table class = "table table-active">
 			<tr>
 				<td>
-					<a href = "<%= request.getContextPath() %>/pdf/selectPdfOne.jsp?pdfNo=<%= p.pdfNo %>"> <%=p.pdfOriginalName%> </a>
+					<a href = "<%= request.getContextPath() %>/pdf/selectPdfOne.jsp?pdfNo=<%= p.getPdfNo() %>"> <%=p.getPdfOriginalName()%> </a>
 				</td>
 			</tr>
 		</table>

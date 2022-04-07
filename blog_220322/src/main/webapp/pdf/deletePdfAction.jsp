@@ -28,7 +28,7 @@
 	}
 		
 	// -디버깅 코드
-	System.out.println("[deletePdfAction.jsp] pdfNo : " + pdf.pdfNo);
-	System.out.println("[deletePdfAction.jsp] pdfPw : " + pdf.pdfPw);
+	System.out.println("[deletePdfAction.jsp] pdfNo : " + pdf.getPdfNo());
+	System.out.println("[deletePdfAction.jsp] pdfPw : " + pdf.getPdfPw());
 	System.out.println("[deletePdfAction.jsp] row : " + row);
 %>

@@ -8,8 +8,7 @@
 	Pdf pdf = photoDao.selectPdfOne(pdfNo);
 	
 	// 디버깅
-    System.out.println("[deletePdfForm.jsp] pdfNo : " + pdf.pdfNo);
-    System.out.println("[deletePdfForm.jsp] pdfPw : " + pdf.pdfPw);
+    System.out.println("[deletePdfForm.jsp] pdfNo : " + pdfNo);
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +30,7 @@
 		<table class = "table table-active">
 			<tr>
 				<td>PDF 번호</td>
-				<td><input type = "text" name = "pdfNo" value = "<%= pdf.pdfNo %>"class="form-control" readonly></td>
+				<td><input type = "text" name = "pdfNo" value = "<%= pdf.getPdfNo() %>"class="form-control" readonly></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>

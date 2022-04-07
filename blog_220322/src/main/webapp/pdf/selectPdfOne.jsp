@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "dao.*" %>
 <%@ page import = "vo.*" %>
 <%
@@ -29,24 +28,24 @@
 	<table class = "table table-info">
 		<tr>
 			<td>pdfNo</td>
-			<td class="table-warning"><%= pdf.pdfNo %></td>
+			<td class="table-warning"><%= pdf.getPdfNo() %></td>
 		</tr>
 		<tr>
 			<td>pdf</td>
-			<td class="table-warning"><a href="<%=request.getContextPath()%>/uploadPdf/<%=pdf.pdfOriginalName%>"><%=pdf.pdfOriginalName%></a></td>
+			<td class="table-warning"><a href="<%=request.getContextPath()%>/uploadPdf/<%= pdf.getPdfOriginalName() %>"><%= pdf.getPdfOriginalName() %></a></td>
 		</tr>
 		<tr>
 			<td>writer</td>
-			<td class="table-warning"><%= pdf.writer %></td>
+			<td class="table-warning"><%= pdf.getWriter() %></td>
 		</tr>
 		<tr>
 			<td>createDate</td>
-			<td class="table-warning"><%= pdf.createDate %></td>
+			<td class="table-warning"><%= pdf.getCreateDate() %></td>
 		</tr>
 	</table>
 	</div>
 		<div>
-			<a href="<%= request.getContextPath() %>/pdf/deletePdfForm.jsp?pdfNo=<%= pdf.pdfNo %>" class = "btn btn-outline-info">삭제</a>
+			<a href="<%= request.getContextPath() %>/pdf/deletePdfForm.jsp?pdfNo=<%= pdf.getPdfNo() %>" class = "btn btn-outline-info">삭제</a>
 			<a href="<%= request.getContextPath() %>/pdf/pdfList.jsp" class = "btn btn-outline-info">이전 페이지</a>
 		</div>
 

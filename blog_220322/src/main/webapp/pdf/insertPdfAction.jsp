@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
 <%@ page import="java.io.File" %>
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %>
 <%
-
 	request.setCharacterEncoding("utf-8");
 	// DefaultFileRenamePolicy rp = new DefaultFileRenamePolicy(); -동일한 이름이 존재할 때 알아서 바꿔줌
 	String path = application.getRealPath("uploadPdf"); // application변수는 톰캣을 가르키는 변수
@@ -38,11 +36,11 @@
 		PdfDao pdfDao = new PdfDao();
 		Pdf pdf = new Pdf();
 		
-		pdf.pdfName = pdfName;
-		pdf.pdfOriginalName = pdfOriginalName;
-		pdf.pdfType = pdfType;
-		pdf.pdfPw = pdfPw;
-		pdf.writer = writer;
+		pdf.setPdfName(pdfName);
+		pdf.setPdfOriginalName(pdfOriginalName);
+		pdf.setPdfType(pdfType);
+		pdf.setPdfPw(pdfPw);
+		pdf.setWriter(writer);
 		
 		pdfDao.insertPdf(pdf); // 메서드 구현
 		

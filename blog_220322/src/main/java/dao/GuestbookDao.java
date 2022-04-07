@@ -16,6 +16,7 @@ public class GuestbookDao {
 	// guestbookDao.insertGuestbook(); 호출
 	public void insertGuestbook(Guestbook guestbook) throws Exception {
 		
+		// -데이터베이스 접속
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		System.out.println("[insertGuestbook] conn : " + conn + " / 드라이버 로딩 성공");
@@ -33,12 +34,15 @@ public class GuestbookDao {
 		} else {
 			System.out.println("입력 실패");
 		}
+		// -데이터베이스 자원 반환
 		stmt.close();
 		conn.close();
 	}
 	// updateGuestbookForm.jsp에서 호출
 	public Guestbook selectGuestbookOne(int guestbookNo) throws Exception {
 		Guestbook guestbook = null;
+		
+		// 데이터베이스 자원 준비
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
@@ -54,6 +58,7 @@ public class GuestbookDao {
 			guestbook.setGuestbookNo(rs.getInt("guestbookNo"));
 			guestbook.setGuestbookContent(rs.getString("guestbookContent"));
 		}
+		// -데이터베이스 자원 반환
 		rs.close();
 		stmt.close();
 		conn.close();
@@ -65,6 +70,8 @@ public class GuestbookDao {
 	// 입력매개변수 - guestbookNo, guestbookContent, guestbookPw 3개 -> 하나의 타입매개변수로 받고 싶다 -> Guestbook 타입을 사용
 	public int updateGuestbook(Guestbook guestbook) throws Exception {
 		int row = 0;
+		
+		// 데이터베이스 자원 준비
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
@@ -77,6 +84,7 @@ public class GuestbookDao {
 		System.out.println(stmt + " <-- sql updateGuestbook");
 		row = stmt.executeUpdate();
 		
+		// -데이터베이스 자원 반환
 		stmt.close();
 		conn.close();
 		
@@ -88,6 +96,8 @@ public class GuestbookDao {
 	// 입력 매개값 - guestbookNo, guestbookPw 2개 -> int, String 타입을 사용 (Guestbook타입을 사용해도 된다.)
 	public int deleteGuestbook(int guestbookNo, String guestbookPw) throws Exception {
 		int row = 0;
+		
+		// 데이터베이스 자원 준비
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		PreparedStatement stmt = null;
@@ -100,6 +110,7 @@ public class GuestbookDao {
 		System.out.println(stmt + " <-- sql deleteGuestbook");
 		row = stmt.executeUpdate();
 		
+		// -데이터베이스 자원 반환
 		stmt.close();
 		conn.close();
 		return row;
