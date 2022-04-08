@@ -8,9 +8,9 @@
 	Photo photo = photoDao.selectPhotoOne(photoNo);
 	
 	// 디버깅
-    System.out.println("[deletePhotoForm.jsp] photoNo : " + photo.photoNo);
-    System.out.println("[deletePhotoForm.jsp] photoPw : " + photo.photoPw);
-    System.out.println("[deletePhotoForm.jsp] photoName : " + photo.photoName);
+    System.out.println("[deletePhotoForm.jsp] photoNo : " + photo.getPhotoNo());
+    System.out.println("[deletePhotoForm.jsp] photoPw : " + photo.getPhotoPw());
+    System.out.println("[deletePhotoForm.jsp] photoName : " + photo.getPhotoName());
 %>
 <!DOCTYPE html>
 <html>
@@ -32,11 +32,11 @@
 		<table class = "table table-active">
 			<tr>
 				<td>이미지 번호</td>
-				<td><input type = "text" name = "photoNo" value = "<%= photo.photoNo %>"class="form-control" readonly></td>
+				<td><input type = "text" name = "photoNo" value = "<%= photo.getPhotoNo() %>"class="form-control" readonly></td>
 			</tr>
 			<tr>
 				<td>이미지</td>
-				<td><input type = "text" name = "photoName" value = "<%= photo.photoName %>"class="form-control" readonly></td>
+				<td><input type = "text" name = "photoName" value = "<%= photo.getPhotoName() %>"class="form-control" readonly></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>

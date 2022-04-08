@@ -70,8 +70,8 @@
 		if(i < list.size()) {
 %>
 				<td>
-					<a href = "<%= request.getContextPath() %>/photo/selectPhotoOne.jsp?photoNo=<%= list.get(i).photoNo %>">
-						<img src="<%= request.getContextPath() %>/upload/<%= list.get(i).photoName %>" width = "200" height = "200">
+					<a href = "<%= request.getContextPath() %>/photo/selectPhotoOne.jsp?photoNo=<%= list.get(i).getPhotoNo() %>">
+						<img src="<%= request.getContextPath() %>/upload/<%= list.get(i).getPhotoName() %>" width = "200" height = "200">
 						<!-- 상세보기에서는 원본 이미지 크기로 -->
 					</a>
 				</td>

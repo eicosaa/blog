@@ -28,23 +28,23 @@
 	<table class = "table table-info">
 		<tr>
 			<td>photoNo</td>
-			<td class="table-warning"><%= photo.photoNo %></td>
+			<td class="table-warning"><%= photo.getPhotoNo() %></td>
 		</tr>
 		<tr>
 			<td>photo</td>
-			<td class="table-warning"><img src="<%= request.getContextPath() %>/upload/<%= photo.photoName %>"></td>
+			<td class="table-warning"><img src="<%= request.getContextPath() %>/upload/<%= photo.getPhotoName() %>"></td>
 		</tr>
 		<tr>
 			<td>writer</td>
-			<td class="table-warning"><%= photo.writer %></td>
+			<td class="table-warning"><%= photo.getWriter() %></td>
 		</tr>
 		<tr>
 			<td>createDate</td>
-			<td class="table-warning"><%= photo.createDate %></td>
+			<td class="table-warning"><%= photo.getCreateDate() %></td>
 		</tr>
 	</table>
 		<div>
-			<a href="<%= request.getContextPath() %>/photo/deletePhotoForm.jsp?photoNo=<%= photo.photoNo %>" class = "btn btn-outline-info">삭제</a>
+			<a href="<%= request.getContextPath() %>/photo/deletePhotoForm.jsp?photoNo=<%= photo.getPhotoNo() %>" class = "btn btn-outline-info">삭제</a>
 			<a href="<%= request.getContextPath() %>/photo/photoList.jsp" class = "btn btn-outline-info">이전 페이지</a>
 		</div>
 
