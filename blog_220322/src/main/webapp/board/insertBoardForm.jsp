@@ -7,7 +7,7 @@
 	//-----------------------------------mariadb 드라이버 로딩 + mariadb RDBMS 접속
 	Class.forName("org.mariadb.jdbc.Driver"); // 드라이버 로딩
 	Connection conn = null;
-	String dburl = "jdbc:mariadb://localhost:3307/blog"; // DB 주소
+	String dburl = "jdbc:mariadb://localhost:3306/blog"; // DB 주소
 	String dbuser = "root"; // DB 아이디
 	String dbpw = "java1234"; // DB 패스워드
 	conn = DriverManager.getConnection(dburl, dbuser, dbpw);

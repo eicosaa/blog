@@ -12,18 +12,18 @@
 	Board board = new Board();
 	
 	// -요청값 / insertBoardForm 페이지에서 보낸 파라미터(매개변수) 값 변수에 저장
-	board.categoryName = request.getParameter("categoryName");	
-	board.boardTitle = request.getParameter("boardTitle");	
-	board.boardContent = request.getParameter("boardContent");
-	board.boardPw = request.getParameter("boardPw");
+	board.setCategoryName(request.getParameter("categoryName"));	
+	board.setBoardTitle(request.getParameter("boardTitle"));	
+	board.setBoardContent(request.getParameter("boardContent"));
+	board.setBoardPw(request.getParameter("boardPw"));
 	
 	boardDao.insertBoard(board);
 
 	// -디버깅 코드
-	System.out.println("[insertBoardAction.jsp] categoryName : " + board.categoryName);
-	System.out.println("[insertBoardAction.jsp] boardTitle : " + board.boardTitle);
-	System.out.println("[insertBoardAction.jsp] boardContent : " + board.boardContent);
-	System.out.println("[insertBoardAction.jsp] boardPw : " + board.boardPw);
+	System.out.println("[insertBoardAction.jsp] categoryName : " + board.getCategoryName());
+	System.out.println("[insertBoardAction.jsp] boardTitle : " + board.getBoardTitle());
+	System.out.println("[insertBoardAction.jsp] boardContent : " + board.getBoardContent());
+	System.out.println("[insertBoardAction.jsp] boardPw : " + board.getBoardPw());
 	
 	response.sendRedirect(request.getContextPath() + "/board/boardList.jsp"); // 재요청 / 입력 실패하거나 성공 후 boardList.jsp로 이동
 %>

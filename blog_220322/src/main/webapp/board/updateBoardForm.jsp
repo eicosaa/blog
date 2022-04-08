@@ -8,7 +8,7 @@
 	// -----------------------------------mariadb 드라이버 로딩 + mariadb RDBMS 접속
 	Class.forName("org.mariadb.jdbc.Driver"); // 드라이버 로딩
 	Connection conn = null;
-	String dburl = "jdbc:mariadb://localhost:3307/blog"; // DB 주소
+	String dburl = "jdbc:mariadb://localhost:3306/blog"; // DB 주소
 	String dbuser = "root"; // DB 아이디
 	String dbpw = "java1234"; // DB 패스워드
 	conn = DriverManager.getConnection(dburl, dbuser, dbpw);
@@ -28,12 +28,12 @@
 	Board board = null;
 	if(boardOneRs.next()) { // -next()메소드 : 문자 혹은 문자열을 공백 기준으로 한 단어 또는 한 문자씩 입력받음, 다음 줄로 커서를 이동해서 읽을 값들이 존재하면 true, 존재하지 않으면 false 
 		board = new Board(); // board값 담을 새로운 리스트 생성
-		board.boardNo = boardOneRs.getInt("boardNo");
-		board.categoryName = boardOneRs.getString("categoryName");
-		board.boardTitle =  boardOneRs.getString("boardTitle");
-		board.boardContent = boardOneRs.getString("boardContent");
-		board.createDate =  boardOneRs.getString("createDate");
-		board.updateDate =  boardOneRs.getString("updateDate");
+		board.setBoardNo(boardOneRs.getInt("boardNo"));
+		board.setCategoryName(boardOneRs.getString("categoryName"));
+		board.setBoardTitle(boardOneRs.getString("boardTitle"));
+		board.setBoardContent(boardOneRs.getString("boardContent"));
+		board.setCreateDate(boardOneRs.getString("createDate"));
+		board.setUpdateDate(boardOneRs.getString("updateDate"));
 	}
 	
 	// category 목록
@@ -74,7 +74,7 @@
 		<table class = "table table-info">
 			<tr>
 				<td>boardNo</td>
-				<td class="table-warning"><input type="text" name="boardNo" value="<%=board.boardNo%>" readonly="readonly" class="form-control"></td>
+				<td class="table-warning"><input type="text" name="boardNo" value="<%= board.getBoardNo() %>" readonly="readonly" class="form-control"></td>
 			</tr>
 			<tr>
 				<td>categoryName</td>
@@ -82,7 +82,7 @@
 					<select name="categoryName" class = "form-select">
 						<%
 							for(String s : categoryList) {
-								if(s.equals(board.categoryName)) { // 수정 시 글의 카테고리
+								if(s.equals(board.getCategoryName())) { // 수정 시 글의 카테고리
 						%>
 									<option selected="selected" value="<%=s%>"><%=s%></option>
 						<%
@@ -98,12 +98,12 @@
 			</tr>
 			<tr>
 				<td>boardTitle</td>
-				<td class="table-warning"><input type="text" name="boardTitle" value="<%=board.boardTitle%>" class="form-control"></td>
+				<td class="table-warning"><input type="text" name="boardTitle" value="<%= board.getBoardTitle() %>" class="form-control"></td>
 			</tr>
 			<tr>
 				<td>boardContent</td>
 				<td class="table-warning">
-					<textarea rows="5" cols="50" name="boardContent" class="form-control"><%=board.boardContent%></textarea>
+					<textarea rows="5" cols="50" name="boardContent" class="form-control"><%= board.getBoardContent() %></textarea>
 				</td>
 			<tr>	
 				<td>boardPw</td>

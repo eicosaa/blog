@@ -60,10 +60,10 @@
 	ArrayList<Board> boardList = new ArrayList<Board>();
 	while(boardRs.next()) {
 		Board b = new Board();
-		b.boardNo = boardRs.getInt("boardNo");
-		b.categoryName = boardRs.getString("categoryName");
-		b.boardTitle = boardRs.getString("boardTitle");
-		b.createDate = boardRs.getString("createDate");
+		b.setBoardNo(boardRs.getInt("boardNo"));
+		b.setCategoryName(boardRs.getString("categoryName"));
+		b.setBoardTitle(boardRs.getString("boardTitle"));
+		b.setCreateDate(boardRs.getString("createDate"));
 		boardList.add(b);
 	}
 	
@@ -143,9 +143,9 @@
 								for(Board b : boardList) {
 							%>
 									<tr>
-										<td><%=b.categoryName%></td>
-										<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%=b.boardNo%>"><%=b.boardTitle%></a></td>
-										<td><%=b.createDate%></td>
+										<td><%= b.getCategoryName() %></td>
+										<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%= b.getBoardNo() %>"><%= b.getBoardTitle() %></a></td>
+										<td><%= b.getCreateDate() %></td>
 									</tr>
 							<%		
 								}
@@ -159,7 +159,7 @@
 						<%
 							if(currentPage > 1) { // 현재 페이지가 1이면 이전 페이지가 존재해서는 안된다.
 						%>
-								<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage - 1 %>&categoryName=<%= categoryName%>" class = "btn btn-info">이전</a>
+								<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage - 1 %>&categoryName=<%= categoryName %>" class = "btn btn-info">이전</a>
 						<%
 							}
 						%>
@@ -176,7 +176,7 @@
 						<%
 							if(currentPage < lastPage) {
 						%>
-								<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage + 1 %>&categoryName=<%= categoryName%>" class = "btn btn-info">다음</a>
+								<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage + 1 %>&categoryName=<%= categoryName %>" class = "btn btn-info">다음</a>
 						<%
 							}
 						%>

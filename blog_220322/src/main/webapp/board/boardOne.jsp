@@ -15,7 +15,7 @@
 	// -----------------------------------mariadb 드라이버 로딩 + mariadb RDBMS 접속
 	Class.forName("org.mariadb.jdbc.Driver"); // 드라이버 로딩
 	Connection conn = null;
-	String dburl = "jdbc:mariadb://localhost:3307/blog"; // DB 주소
+	String dburl = "jdbc:mariadb://localhost:3306/blog"; // DB 주소
 	String dbuser = "root"; // DB 아이디
 	String dbpw = "java1234"; // DB 패스워드
 	conn = DriverManager.getConnection(dburl, dbuser, dbpw);
@@ -32,12 +32,12 @@
 	Board board = null;
 	if(rs.next()) { // -next()메소드 : 문자 혹은 문자열을 공백 기준으로 한 단어 또는 한 문자씩 입력받음, 다음 줄로 커서를 이동해서 읽을 값들이 존재하면 true, 존재하지 않으면 false 
 		board = new Board();
-		board.boardNo = rs.getInt("boardNo");
-		board.boardTitle = rs.getString("boardTitle");
-		board.categoryName = rs.getString("categoryName");
-		board.boardContent = rs.getString("boardContent");
-		board.createDate = rs.getString("createDate");
-		board.updateDate = rs.getString("updateDate");
+		board.setBoardNo(rs.getInt("boardNo"));
+		board.setBoardTitle(rs.getString("boardTitle"));
+		board.setCategoryName(rs.getString("categoryName"));
+		board.setBoardContent(rs.getString("boardContent"));
+		board.setCreateDate(rs.getString("createDate"));
+		board.setUpdateDate(rs.getString("updateDate"));
 	}
 	
 	// -카테고리 메뉴 쿼리
@@ -103,32 +103,32 @@
 	<table class = "table table-info">
 		<tr>
 			<td>boardNo</td>
-			<td class="table-warning"><%= board.boardNo %></td>
+			<td class="table-warning"><%= board.getBoardNo() %></td>
 		</tr>
 		<tr>
 			<td>categoryName</td>
-			<td class="table-warning"><%= board.categoryName %></td>
+			<td class="table-warning"><%= board.getCategoryName() %></td>
 		</tr>
 		<tr>
 			<td>boardTitle</td>
-			<td class="table-warning"><%= board.boardTitle %></td>
+			<td class="table-warning"><%= board.getBoardTitle() %></td>
 		</tr>
 		<tr>
 			<td>boardContent</td>
-			<td class="table-warning"><%= board.boardContent %></td>
+			<td class="table-warning"><%= board.getBoardContent() %></td>
 		</tr>
 		<tr>
 			<td>createDate</td>
-			<td class="table-warning"><%= board.createDate %></td>
+			<td class="table-warning"><%= board.getCreateDate() %></td>
 		</tr>
 		<tr>
 			<td>updateDate</td>
-			<td class="table-warning"><%= board.updateDate %></td>
+			<td class="table-warning"><%= board.getUpdateDate() %></td>
 		</tr>
 	</table>
 		<div>
-			<a href="<%= request.getContextPath() %>/board/updateBoardForm.jsp?boardNo=<%= board.boardNo %>" class = "btn btn-outline-info">수정</a>
-			<a href="<%= request.getContextPath() %>/board/deleteBoardForm.jsp?boardNo=<%= board.boardNo %>" class = "btn btn-outline-info">삭제</a>
+			<a href="<%= request.getContextPath() %>/board/updateBoardForm.jsp?boardNo=<%= board.getBoardNo() %>" class = "btn btn-outline-info">수정</a>
+			<a href="<%= request.getContextPath() %>/board/deleteBoardForm.jsp?boardNo=<%= board.getBoardNo() %>" class = "btn btn-outline-info">삭제</a>
 			<a href="<%= request.getContextPath() %>/board/boardList.jsp" class = "btn btn-outline-info">이전 페이지</a>
 		</div>
 	</div>

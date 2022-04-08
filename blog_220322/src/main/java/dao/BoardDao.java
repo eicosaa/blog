@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import util.DBUtil;
 import vo.Board;
 import vo.Photo;
 
@@ -16,18 +17,14 @@ public class BoardDao {
 	public void insertBoard(Board board) throws Exception {
 		Board b = new Board();
 		
-		//-----------------------------------mariadb 드라이버 로딩 + mariadb RDBMS 접속
-		Class.forName("org.mariadb.jdbc.Driver"); // 드라이버 로딩
+		// -mariadb 드라이버 로딩 + mariadb RDBMS 접속 + 자원 준비
+		// -데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
+		System.out.println("[BoardDao.insertBoard] conn : " + conn + " / 드라이버 로딩 성공");
 		PreparedStatement stmt = null;
 		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; // 주소
-		String dbuser = "root"; // 아이디
-		String dbpw = "java1234"; // 패스워드
 		String sql = "INSERT INTO board(category_name, board_title,	board_content, board_pw, create_date, update_date) VALUES (?, ?, ?, ?, NOW(), NOW())";
-		
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw); // -드라이버 연결하여 conn 변수에 저장
-		System.out.println("[insertBoard] conn : " + conn + " / 드라이버 로딩 성공");
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, b.getCategoryName());
 		stmt.setString(2, b.getBoardTitle());
@@ -50,17 +47,13 @@ public class BoardDao {
 	// 수정
 	public int updateBoard(Board board) throws Exception {
 		Board b = new Board();
-		
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = null;
-		PreparedStatement stmt = null;
 		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; // 주소
-		String dbuser = "root"; // 아이디
-		String dbpw = "java1234"; // 패스워드
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-		System.out.println("[updateBoard] conn : " + conn + " / 드라이버 로딩 성공");
+		// -데이터베이스 접속
+		Connection conn = null;
+		conn = DBUtil.getConnection();
+		System.out.println("[BoardDao.updateBoard] conn : " + conn + " / 드라이버 로딩 성공");
+		PreparedStatement stmt = null;
 		
 		String sql = "UPDATE board SET category_name = ?, board_title = ?, board_content = ?, update_Date = NOW() WHERE board_no = ? AND board_pw = ?";
 		stmt = conn.prepareStatement(sql);
@@ -82,15 +75,12 @@ public class BoardDao {
 	public int deleteBoard(int boardNo, String boardPw) throws Exception {
 		
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = null;
-		PreparedStatement stmt = null;
 		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; // 주소
-		String dbuser = "root"; // 아이디
-		String dbpw = "java1234"; // 패스워드
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-		System.out.println("[deleteBoard] conn : " + conn + " / 드라이버 로딩 성공");
+		// -데이터베이스 접속
+		Connection conn = null;
+		conn = DBUtil.getConnection();
+		System.out.println("[BoardDao.deleteBoard] conn : " + conn + " / 드라이버 로딩 성공");
+		PreparedStatement stmt = null;
 		
 		String sql = "DELETE FROM board WHERE board_no = ? AND board_pw = ?";
 		stmt = conn.prepareStatement(sql);
@@ -102,6 +92,7 @@ public class BoardDao {
 		
 		stmt.close();
 		conn.close();
+		
 		return row;
 	}
 	
@@ -110,17 +101,12 @@ public class BoardDao {
 		
 		Board board = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");
+		// -데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
+		System.out.println("[BoardDao.selectBoardOne] conn : " + conn + " / 드라이버 로딩 성공");
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; // 주소
-		String dbuser = "root"; // 아이디
-		String dbpw = "java1234"; // 패스워드
-		
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-		System.out.println("[selectBoardOne] conn : " + conn + " / 드라이버 로딩 성공");
 		
 		String sql = "SELECT board_no boardNo, category_name categoryName, board_content boardContent, board_title boardTitle, create_date createDate, update_date updateDate FROM board where board_no = ?";
 		stmt = conn.prepareStatement(sql);
@@ -149,23 +135,16 @@ public class BoardDao {
 	// 목록 (n행씩 반환)
 	public ArrayList<Board> selectBoardListByPage(int beginRow, int rowPerPage) throws Exception {
 		Board b = new Board();
-		
 		ArrayList<Board> list = new ArrayList<Board>();
-		
-		// 10행 반환되도록 구현
-		Class.forName("org.mariadb.jdbc.Driver"); // -드라이버 로딩
-		
-		// 데이터베이스 자원 준비
+
+		// -데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
+		System.out.println("[BoardDao.selectBoardListByPage] conn : " + conn + " / 드라이버 로딩 성공");
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; // 주소
-		String dbuser = "root"; // 아이디
-		String dbpw = "java1234"; // 패스워드
+
 		String sql = "SELECT create_date createDate FROM board ORDER BY create_date DESC LIMIT ?, ?";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-		System.out.println("[selectBoardListByPage] conn : " + conn + " / 드라이버 로딩 성공");
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
@@ -174,8 +153,8 @@ public class BoardDao {
 		
 		// 데이터 변환(가공)
 		while(rs.next()) {
-			b.setBoardNo = rs.getInt("boardNo");
-			b.createDate = rs.getString("createDate");
+			b.setBoardNo(rs.getInt("boardNo"));
+			b.setCreateDate(rs.getString("createDate"));
 			list.add(b);
 		}
 		
@@ -190,21 +169,16 @@ public class BoardDao {
 	// 전체 행의 수
 	public int selectBoardTotalRow() throws Exception {
 		Board b = new Board();
-		
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		// 데이터베이스 자원 준비
+		
+		// -데이터베이스 접속
 		Connection conn = null;
+		conn = DBUtil.getConnection();
+		System.out.println("[BoardDao.selectBoardTotalRow] conn : " + conn + " / 드라이버 로딩 성공");
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String dburl = "jdbc:mariadb://localhost:3306/blog"; // 주소
-		String dbuser = "root"; // 아이디
-		String dbpw = "java1234"; // 패스워드
-		
 		String sql = "SELECT COUNT(*) cnt FROM board";
-		conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-		System.out.println("[selectBoardTotalRow] conn : " + conn + " / 드라이버 로딩 성공");
 		stmt = conn.prepareStatement(sql);
 		rs = stmt.executeQuery();
 		if(rs.next()) {
