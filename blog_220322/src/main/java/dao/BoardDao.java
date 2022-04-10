@@ -56,8 +56,7 @@ public class BoardDao {
 	}
 	
 	// 수정
-	public int updateBoard(Board board) throws Exception {
-		Board b = new Board();
+	public int updateBoard(Board board) {
 		int row = 0;
 		
 		// -데이터베이스 접속
@@ -67,17 +66,30 @@ public class BoardDao {
 		PreparedStatement stmt = null;
 		
 		String sql = "UPDATE board SET category_name = ?, board_title = ?, board_content = ?, update_Date = NOW() WHERE board_no = ? AND board_pw = ?";
-		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, b.getCategoryName());
-		stmt.setString(2, b.getBoardTitle());
-		stmt.setString(3, b.getBoardContent());
-		stmt.setInt(4, b.getBoardNo()); 
-		stmt.setString(5, b.getBoardPw());
-		System.out.println("[Dao.updateBoard] sql : " + stmt);
-		row = stmt.executeUpdate();
-		
-		stmt.close();
-		conn.close();
+
+		try {
+			 stmt = conn.prepareStatement(sql);
+			 stmt.setString(1, board.getCategoryName());
+			 stmt.setString(2, board.getBoardTitle());
+			 stmt.setString(3, board.getBoardContent());
+			 stmt.setInt(4, board.getBoardNo()); 
+			 stmt.setString(5, board.getBoardPw());
+			
+			 System.out.println("[Dao.updateBoard] stmt : " + stmt);
+			 
+			 // -수행결과 int 타입의 값 반환하는 executeUpdate를 사용하여 몇 행을 입력했는지 return
+			 row = stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				conn.close(); // -Connection 객체는 사용이 끝나면 반납	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		return row;
 	}
