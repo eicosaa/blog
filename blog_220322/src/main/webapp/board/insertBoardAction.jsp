@@ -17,13 +17,13 @@
 	board.setBoardContent(request.getParameter("boardContent"));
 	board.setBoardPw(request.getParameter("boardPw"));
 	
-	boardDao.insertBoard(board);
-
 	// -디버깅 코드
 	System.out.println("[insertBoardAction.jsp] categoryName : " + board.getCategoryName());
 	System.out.println("[insertBoardAction.jsp] boardTitle : " + board.getBoardTitle());
 	System.out.println("[insertBoardAction.jsp] boardContent : " + board.getBoardContent());
 	System.out.println("[insertBoardAction.jsp] boardPw : " + board.getBoardPw());
+	
+	boardDao.insertBoard(board);
 	
 	response.sendRedirect(request.getContextPath() + "/board/boardList.jsp"); // 재요청 / 입력 실패하거나 성공 후 boardList.jsp로 이동
 %>

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import util.DBUtil;
@@ -14,8 +15,7 @@ public class BoardDao {
 	public BoardDao() { } // -생성자 메소드
 
 	// 입력
-	public void insertBoard(Board board) throws Exception {
-		Board b = new Board();
+	public void insertBoard(Board board) {
 		
 		// -mariadb 드라이버 로딩 + mariadb RDBMS 접속 + 자원 준비
 		// -데이터베이스 접속
@@ -25,23 +25,34 @@ public class BoardDao {
 		PreparedStatement stmt = null;
 		
 		String sql = "INSERT INTO board(category_name, board_title,	board_content, board_pw, create_date, update_date) VALUES (?, ?, ?, ?, NOW(), NOW())";
-		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, b.getCategoryName());
-		stmt.setString(2, b.getBoardTitle());
-		stmt.setString(3, b.getBoardContent());
-		stmt.setString(4, b.getBoardPw());
-		
-		// -수행결과 int 타입의 값 반환하는 executeUpdate를 사용하여 몇 행을 입력했는지 return
-		int row = stmt.executeUpdate();
-		// 디버깅
-		if(row == 1) {
-			System.out.println("[insertBoard] " + row + "행 입력 성공");
-		} else {
-			System.out.println("[insertBoard] 입력 실패");
+	
+		try {
+			 stmt = conn.prepareStatement(sql);
+			 stmt.setString(1, board.getCategoryName());
+			 stmt.setString(2, board.getBoardTitle());
+			 stmt.setString(3, board.getBoardContent());
+			 stmt.setString(4, board.getBoardPw());
+			 
+			 System.out.println("stmt : " + stmt);
+			 
+			 // -수행결과 int 타입의 값 반환하는 executeUpdate를 사용하여 몇 행을 입력했는지 return
+			 int row = stmt.executeUpdate();
+			 // 디버깅
+			 if(row == 1) {
+			 	 System.out.println("[insertBoard] " + row + "행 입력 성공");
+			 } else {
+				 System.out.println("[insertBoard] 입력 실패");
+			 }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				conn.close(); // -Connection 객체는 사용이 끝나면 반납	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		stmt.close();
-		conn.close(); // -Connection 객체는 사용이 끝나면 반납	
 	}
 	
 	// 수정
