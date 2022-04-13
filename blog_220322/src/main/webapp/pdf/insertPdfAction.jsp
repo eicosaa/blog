@@ -19,7 +19,7 @@
 	
 	// input type="file" name="pdf"에 대한 처리
 	String pdfOriginalName = multiReq.getOriginalFileName("pdf"); // 파일 업로드 시 원본의 이름
-	String pdfName = multiReq.getOriginalFileName("pdf"); // new DefaultFileRenamePolicy()객체를 통해 변경된 이름
+	String pdfName = multiReq.getFilesystemName("pdf"); // new DefaultFileRenamePolicy()객체를 통해 변경된 이름
 	String pdfType = multiReq.getContentType("pdf");
 	
 	System.out.println("[insertPdfAction.jsp] pdfPw : " + pdfPw);
@@ -28,7 +28,7 @@
 	System.out.println("[insertPdfAction.jsp] pdfName : " + pdfName);
 	System.out.println("[insertPdfAction.jsp] pdfType : " + pdfType);
 	
-	// 파일 업로드의 경우 100mbyte 이하의 image/gif, image/png, image/jpeg 3가지 이미지만 허용
+	// 파일 업로드의 경우 pdf만 허용
 	if(pdfType.equals("application/pdf")) {
 		// db에 저장
 		System.out.println("db에 저장되었습니다.");
