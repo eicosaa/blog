@@ -17,7 +17,7 @@
 	<div class="container p-3 my-3 bg-secondary text-white">
 	<h1>이미지 등록</h1>
 	</div>
-<div>
+	<div>
 	<!-- 
 		1) form태그 안에 값을 넘기는 기본값은 문자열이다. 
 		2) 파일을 넘길 수 없다. 기본값(application/x-www-form-urlencoded)을 변경해야 한다.
@@ -30,19 +30,21 @@
 		<table class = "table table-active">
 			<tr>
 				<td>이미지 파일</td>
-				<td><input type="file" name="photo"></td>
+				<td><input type = "file" name = "photo" class = "custom-file"></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
-				<td><input type="password" name="photoPw"></td>
+				<td><input type = "password" name = "photoPw" class = "form-control"></td>
 			</tr>
 			<tr>
 				<td>글쓴이</td>
-				<td><input type="text" name="writer"></td>
+				<td><input type = "text" name = "writer" class = "form-control"></td>
 			</tr>
 		</table>
 		<button type = "submit" class = "btn btn-outline-dark">이미지 등록</button>
 		<a href="<%= request.getContextPath() %>/photo/photoList.jsp" class = "btn btn-outline-dark">이전 페이지</a>
 	</form>
+	</div>
+</div>
 </body>
 </html>

@@ -38,6 +38,7 @@
 	System.out.println(photoOriginalName + " <-- photoOriginalName");
 	System.out.println(photoName + " <-- photoName");
 	System.out.println(photoType + " <-- photoType");
+	System.out.println("[insertPhotoAction.jsp] path : " + path);
 	
 	// 파일 업로드의 경우 100mbyte 이하의 image/gif, image/png, image/jpeg 3가지 이미지만 허용
 	if(photoType.equals("image/git") || photoType.equals("image/png") || photoType.equals("image/jpeg")) {
