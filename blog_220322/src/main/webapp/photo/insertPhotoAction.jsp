@@ -46,11 +46,11 @@
 		System.out.println("db에 저장되었습니다.");
 		PhotoDao photoDao = new PhotoDao();
 		Photo photo = new Photo();
-		photo.setPhotoName("photoName");
-		photo.setPhotoOriginalName("photoOriginalName");
-		photo.setPhotoType("photoType");
-		photo.setPhotoPw("photoPw");
-		photo.setWriter("writer");
+		photo.setPhotoName(photoName);
+		photo.setPhotoOriginalName(photoOriginalName);
+		photo.setPhotoType(photoType);
+		photo.setPhotoPw(photoPw);
+		photo.setWriter(writer);
 		
 		photoDao.insertPhoto(photo); // 메서드 구현
 		

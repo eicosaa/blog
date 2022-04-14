@@ -31,6 +31,10 @@ public class PhotoDao {
 	
 	// 이미지 입력
 	public void insertPhoto(Photo photo) throws Exception {
+		System.out.println("[insertPhoto] PhotoName : " + photo.getPhotoName() + "/insertPhotoAction.jsp에서 넘어온 값");
+		System.out.println("[insertPhoto] PhotoOriginalName : " + photo.getPhotoOriginalName() + "/insertPhotoAction.jsp에서 넘어온 값");
+		System.out.println("[insertPhoto] Writer : " + photo.getWriter() + "/insertPhotoAction.jsp에서 넘어온 값");
+		
 		// -데이터베이스 접속
 		Connection conn = null;
 		conn = DBUtil.getConnection();
