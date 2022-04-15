@@ -156,37 +156,47 @@ public class BoardDao {
 	}
 	
 	// 목록 (n행씩 반환)
-	public ArrayList<Board> selectBoardListByPage(int beginRow, int rowPerPage) throws Exception {
-		Board b = new Board();
-		ArrayList<Board> list = new ArrayList<Board>();
+	public ArrayList<Board> selectBoardListByPage(int beginRow, int rowPerPage, String categoryName) throws Exception {
+		ArrayList<Board> boardList = new ArrayList<Board>();
 
 		// -데이터베이스 접속
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		System.out.println("[BoardDao.selectBoardListByPage] conn : " + conn + " / 드라이버 로딩 성공");
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		PreparedStatement boardStmt = null;
 
-		String sql = "SELECT create_date createDate FROM board ORDER BY create_date DESC LIMIT ?, ?";
-		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		rs = stmt.executeQuery();
+		String boardSql = null;
+		if(categoryName.equals("")) {
+			boardSql = "SELECT board_no boardNo, category_name categoryName, board_title boardTitle, create_date createDate FROM board ORDER BY create_date DESC LIMIT ?, ?";
+			boardStmt = conn.prepareStatement(boardSql);
+			boardStmt.setInt(1, beginRow);
+			boardStmt.setInt(2, rowPerPage);
+		} else {
+			boardSql = "SELECT board_no boardNo, category_name categoryName, board_title boardTitle, create_date createDate FROM board WHERE category_name = ? ORDER BY create_date DESC LIMIT ?, ?";
+			boardStmt = conn.prepareStatement(boardSql);
+			boardStmt.setString(1, categoryName);
+			boardStmt.setInt(2, beginRow);
+			boardStmt.setInt(3, rowPerPage);
+		}
+		ResultSet boardRs = boardStmt.executeQuery();
 		// 데이터베이스 로직 끝
 		
 		// 데이터 변환(가공)
-		while(rs.next()) {
-			b.setBoardNo(rs.getInt("boardNo"));
-			b.setCreateDate(rs.getString("createDate"));
-			list.add(b);
+		while(boardRs.next()) {
+			Board b = new Board();
+			b.setBoardNo(boardRs.getInt("boardNo"));
+			b.setCategoryName(boardRs.getString("categoryName"));
+			b.setBoardTitle(boardRs.getString("boardTitle"));
+			b.setCreateDate(boardRs.getString("createDate"));
+			boardList.add(b);
 		}
 		
 		// 데이터베이스 자원들 반환
-		rs.close();
-		stmt.close();
+		boardRs.close();
+		boardStmt.close();
 		conn.close();
 		
-		return list;
+		return boardList;
 	}
 	
 	// 전체 행의 수

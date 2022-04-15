@@ -3,16 +3,31 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.CategoryDao"%>
+<%@ page import = "dao.BoardDao"%>
 <%
+	// -boardList.jsp에 필요한 dao 생성
+	BoardDao boardDao = new BoardDao();
+	CategoryDao categoryDao = new CategoryDao();
+	
+	// -페이징
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	int rowPerPage = 10; // rowPerPage은 한 페이지에 내가 보고 싶은 글 수 (한 행에 10개씩 보고 싶다.)
 	int beginRow = (currentPage - 1) * rowPerPage; // 현재 페이지가 변경되면 beginRow도 변경된다. -> 가져오는 데이터 변경된다.
-	
+	int totalRow = boardDao.selectBoardTotalRow(); // 전체 행의 개수	
+	int lastPage = 0;
+	if(totalRow % rowPerPage == 0) {
+		lastPage = totalRow / rowPerPage;
+	} else {
+		lastPage = (totalRow / rowPerPage) + 1;
+	}
+	// -페이징 디버깅 코드
 	System.out.println("[boardList.jsp] currentPage : " + currentPage);
 	System.out.println("[boardList.jsp] beginRow : " + beginRow);
+	System.out.println("[boardList.jsp] totalRow : " + totalRow);
+	System.out.println("[boardList.jsp] lastPage : " + lastPage);
 	
 	// 이전, 다음 링크에서 null 값을 넘기는 것이 불가능해서 null -> 공백으로 치환해서 코드를 처리
 	String categoryName = "";
@@ -21,60 +36,10 @@
 	}	
 
 	// -카테고리 목록 메서드 객체 생성
-	CategoryDao categoryDao = new CategoryDao();
 	ArrayList<HashMap<String,Object>> categoryList = categoryDao.CategoryList();
 	
-	// boardList
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	String dburl = "jdbc:mariadb://localhost:3306/blog";
-	String dbuser = "root";
-	String dbpw = "java1234";
-	conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-	System.out.println(conn + " <-- conn");
-	
-	String boardSql = null;
-	PreparedStatement boardStmt = null;
-	if(categoryName.equals("")) {
-		boardSql = "SELECT board_no boardNo, category_name categoryName, board_title boardTitle, create_date createDate FROM board ORDER BY create_date DESC LIMIT ?, ?";
-		boardStmt = conn.prepareStatement(boardSql);
-		boardStmt.setInt(1, beginRow);
-		boardStmt.setInt(2, rowPerPage);
-	} else {
-		boardSql = "SELECT board_no boardNo, category_name categoryName, board_title boardTitle, create_date createDate FROM board WHERE category_name =? ORDER BY create_date DESC LIMIT ?, ?";
-		boardStmt = conn.prepareStatement(boardSql);
-		boardStmt.setString(1, categoryName);
-		boardStmt.setInt(2, beginRow);
-		boardStmt.setInt(3, rowPerPage);
-	}
-	ResultSet boardRs = boardStmt.executeQuery();
-	ArrayList<Board> boardList = new ArrayList<Board>();
-	while(boardRs.next()) {
-		Board b = new Board();
-		b.setBoardNo(boardRs.getInt("boardNo"));
-		b.setCategoryName(boardRs.getString("categoryName"));
-		b.setBoardTitle(boardRs.getString("boardTitle"));
-		b.setCreateDate(boardRs.getString("createDate"));
-		boardList.add(b);
-	}
-	
-	int totalRow = 0; // select count(*) from board; -> 전체 행의 개수
-	String totalRowSql = "SELECT COUNT(*) cnt FROM board";
-	PreparedStatement totalRowStmt = conn.prepareStatement(totalRowSql);
-	ResultSet totalRowRs = totalRowStmt.executeQuery();
-	if(totalRowRs.next()) {
-		totalRow = totalRowRs.getInt("cnt");
-		System.out.println(totalRow + " <-- totalRow");
-	}
-	
-	int lastPage = 0;
-	if(totalRow % rowPerPage == 0) {
-		lastPage = totalRow / rowPerPage;
-	} else {
-		lastPage = (totalRow / rowPerPage) + 1;
-	}
-	
-	conn.close();
+	// -boardList 메서드 객체 생성
+	ArrayList<Board> boardList = boardDao.selectBoardListByPage(beginRow, rowPerPage, categoryName);
 %>
 <!DOCTYPE html>
 <html>
