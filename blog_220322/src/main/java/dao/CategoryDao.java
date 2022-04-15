@@ -18,12 +18,14 @@ public class CategoryDao {
 		Connection conn = null;
 		conn = DBUtil.getConnection();
 		System.out.println("[CategoryDao.CategoryList] conn : " + conn + " / 드라이버 로딩 성공");
-		PreparedStatement stmt = null;
 
+		// -카테고리 메뉴 쿼리
 		String categorySql = "SELECT category_name categoryName, COUNT(*) cnt FROM board GROUP BY category_name";
 		PreparedStatement categoryStmt = conn.prepareStatement(categorySql);
 		ResultSet categoryRs = categoryStmt.executeQuery();
 		
+		// -쿼리의 결과를 Category, Board VO로 저장할 수 없기에 HashMap 사용
+		// -Resultset을 ArrayList<HashMap...> 변경, HashMap을 변수가 categoryList인 ArrayList에 담기
 		// 쿼리에 결과를 Category, Board VO로 저장할 수 없다. -> HashMap을 사용해서 저장하자!
 		ArrayList<HashMap<String, Object>> categoryList = new ArrayList<HashMap<String, Object>>();
 		while(categoryRs.next()) {
@@ -32,6 +34,11 @@ public class CategoryDao {
 			map.put("cnt", categoryRs.getInt("cnt"));
 			categoryList.add(map);
 		}
+		
+		// 데이터베이스 자원 반환
+		categoryRs.close();
+		categoryStmt.close();
+		conn.close();
 
 		return categoryList;
 	}

@@ -131,15 +131,18 @@ public class BoardDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
+		// -쿼리 저장
 		String sql = "SELECT board_no boardNo, category_name categoryName, board_content boardContent, board_title boardTitle, create_date createDate, update_date updateDate FROM board where board_no = ?";
 		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, boardNo);
+		stmt.setInt(1, boardNo); // -사용자가 선택해서 넘어온 ?값
 		System.out.println("[Dao.selectBoardOne] sql : " + stmt);
-		rs = stmt.executeQuery();
 		
-		if(rs.next()) {
+		// -쿼리를 실행 후 결과값(테이블 모양의 ResultSet타입)을 리턴
+		// -한 행의 데이터값을 가져오기에 ArrayList 대신 Board board 사용
+		rs = stmt.executeQuery();
+		if(rs.next()) { // -next()메소드 : 문자 혹은 문자열을 공백 기준으로 한 단어 또는 한 문자씩 입력받음, 다음 줄로 커서를 이동해서 읽을 값들이 존재하면 true, 존재하지 않으면 false 
 			board = new Board(); // 생성자메서드
-			board.setBoardNo(rs.getInt("photoNo"));
+			board.setBoardNo(rs.getInt("boardNo"));
 			board.setBoardTitle(rs.getString("boardTitle"));
 			board.setCategoryName(rs.getString("categoryName"));
 			board.setBoardContent(rs.getString("boardContent"));

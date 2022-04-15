@@ -6,61 +6,25 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%
-//----------------------------------------------전 페이지에서 넘어온 값 변수에 저장
+	//----------------------------------------------전 페이지에서 넘어온 값 변수에 저장
 	int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 	String categoryName = request.getParameter("categoryName");	
 	System.out.println("[boardOne.jsp] boardNo : " + boardNo);
 	System.out.println("[boardOne.jsp] categoryName : " + categoryName);
 	
-	// -----------------------------------mariadb 드라이버 로딩 + mariadb RDBMS 접속
-	Class.forName("org.mariadb.jdbc.Driver"); // 드라이버 로딩
-	Connection conn = null;
-	String dburl = "jdbc:mariadb://localhost:3306/blog"; // DB 주소
-	String dbuser = "root"; // DB 아이디
-	String dbpw = "java1234"; // DB 패스워드
-	conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-	System.out.println("[boardOne.jsp] conn : " + conn + " / 드라이버 로딩 성공");
+	// -boardOne.jsp에 필요한 dao 생성
+	BoardDao boardDao = new BoardDao();
+	CategoryDao categoryDao = new CategoryDao();
 	
-	// ---------------------------------------------------------------------쿼리
-	// -쿼리 저장
-	PreparedStatement stmt = conn.prepareStatement("SELECT board_no boardNo, category_name categoryName, board_content boardContent, board_title boardTitle, create_date createDate, update_date updateDate FROM board where board_no = ?");
-	stmt.setInt(1, boardNo); // 사용자가 선택해서 넘어온 ?값
-			
-	// -쿼리를 실행 후 결과값(테이블 모양의 ResultSet타입)을 리턴
-	// -한 행의 데이터값을 가져오기에 ArrayList 대신 Board board 사용
-	ResultSet rs = stmt.executeQuery();
-	Board board = null;
-	if(rs.next()) { // -next()메소드 : 문자 혹은 문자열을 공백 기준으로 한 단어 또는 한 문자씩 입력받음, 다음 줄로 커서를 이동해서 읽을 값들이 존재하면 true, 존재하지 않으면 false 
-		board = new Board();
-		board.setBoardNo(rs.getInt("boardNo"));
-		board.setBoardTitle(rs.getString("boardTitle"));
-		board.setCategoryName(rs.getString("categoryName"));
-		board.setBoardContent(rs.getString("boardContent"));
-		board.setCreateDate(rs.getString("createDate"));
-		board.setUpdateDate(rs.getString("updateDate"));
-	}
+	// -카테고리 목록 메서드 객체 생성
+	ArrayList<HashMap<String,Object>> categoryList = categoryDao.CategoryList();
 	
-	// -카테고리 메뉴 쿼리
-	String categorySql = "SELECT category_name categoryName, COUNT(*) cnt FROM board GROUP BY category_name";
-	PreparedStatement categoryStmt = conn.prepareStatement(categorySql);
-	ResultSet categoryRs = categoryStmt.executeQuery();
-	
-	// -쿼리의 결과를 Category, Board VO로 저장할 수 없기에 HashMap 사용
-	// -Resultset을 ArrayList<HashMap...> 변경, HashMap을 변수가 categoryList인 ArrayList에 담기
-	ArrayList<HashMap<String, Object>> categoryList = new ArrayList<HashMap<String, Object>>();
-	while(categoryRs.next()) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("categoryName", categoryRs.getString("categoryName"));
-		map.put("cnt", categoryRs.getInt("cnt"));
-		categoryList.add(map);
-	}
-	
-	conn.close(); // -Connection 객체는 사용이 끝나면 반납
+	// -selectBoardOne 메서드 객체 생성
+	Board board = boardDao.selectBoardOne(boardNo);
 	
 	// -request.getContextPath() : 프로젝트 명이 바뀔 수 있기 때문에 사용 
 	//	(프로젝트 명이 바뀌면 a href를 수정해야 하기 때문에 번거롭지 않기 위해 사용)
 	// -request.getContextPath()는 프로젝트 명을 갖고 옴 (/blog라는 글이 들어갈거임)
-
 %>
 <!DOCTYPE html>
 <html>
