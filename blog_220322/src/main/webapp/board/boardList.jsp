@@ -2,24 +2,29 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.*" %>
+<%@ page import = "dao.CategoryDao"%>
 <%
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
+	int rowPerPage = 10; // rowPerPage은 한 페이지에 내가 보고 싶은 글 수 (한 행에 10개씩 보고 싶다.)
+	int beginRow = (currentPage - 1) * rowPerPage; // 현재 페이지가 변경되면 beginRow도 변경된다. -> 가져오는 데이터 변경된다.
+	
 	System.out.println("[boardList.jsp] currentPage : " + currentPage);
+	System.out.println("[boardList.jsp] beginRow : " + beginRow);
 	
 	// 이전, 다음 링크에서 null 값을 넘기는 것이 불가능해서 null -> 공백으로 치환해서 코드를 처리
 	String categoryName = "";
 	if(request.getParameter("categoryName") != null) {
 		categoryName = request.getParameter("categoryName");
-	}
-	
-	int rowPerPage = 10; // rowPerPage은 한 페이지에 내가 보고 싶은 글 수 (한 행에 10개씩 보고 싶다.)
-	int beginRow = (currentPage - 1) * rowPerPage; // 현재 페이지가 변경되면 beginRow도 변경된다. -> 가져오는 데이터 변경된다.
-	
-	//String categoryName = request.getParameter("categoryName");	
+	}	
 
+	// -카테고리 목록 메서드 객체 생성
+	CategoryDao categoryDao = new CategoryDao();
+	ArrayList<HashMap<String,Object>> categoryList = categoryDao.CategoryList();
+	
+	// boardList
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
 	String dburl = "jdbc:mariadb://localhost:3306/blog";
@@ -27,21 +32,7 @@
 	String dbpw = "java1234";
 	conn = DriverManager.getConnection(dburl, dbuser, dbpw);
 	System.out.println(conn + " <-- conn");
-
-	String categorySql = "SELECT category_name categoryName, COUNT(*) cnt FROM board GROUP BY category_name";
-	PreparedStatement categoryStmt = conn.prepareStatement(categorySql);
-	ResultSet categoryRs = categoryStmt.executeQuery();
 	
-	// 쿼리에 결과를 Category, Board VO로 저장할 수 없다. -> HashMap을 사용해서 저장하자!
-	ArrayList<HashMap<String, Object>> categoryList = new ArrayList<HashMap<String, Object>>();
-	while(categoryRs.next()) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("categoryName", categoryRs.getString("categoryName"));
-		map.put("cnt", categoryRs.getInt("cnt"));
-		categoryList.add(map);
-	}
-	
-	// boardList
 	String boardSql = null;
 	PreparedStatement boardStmt = null;
 	if(categoryName.equals("")) {
