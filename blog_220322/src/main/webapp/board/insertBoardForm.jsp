@@ -1,29 +1,14 @@
-<%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
+<%@ page import = "dao.CategoryDao"%>
+<%@ page import = "java.util.ArrayList"%>
+<%@ page import = "java.util.HashMap"%>
 <%
+	// -insertBoardForm.jsp에 필요한 dao 생성
+	CategoryDao categoryDao = new CategoryDao();
 	
-	//-----------------------------------mariadb 드라이버 로딩 + mariadb RDBMS 접속
-	Class.forName("org.mariadb.jdbc.Driver"); // 드라이버 로딩
-	Connection conn = null;
-	String dburl = "jdbc:mariadb://localhost:3306/blog"; // DB 주소
-	String dbuser = "root"; // DB 아이디
-	String dbpw = "java1234"; // DB 패스워드
-	conn = DriverManager.getConnection(dburl, dbuser, dbpw);
-	System.out.println("[insertBoardForm.jsp] conn : " + conn + " / 드라이버 로딩 성공");
-	
-	// ---------------------------------------------------------------------쿼리
-	// -데이터베이스에 있는 카테고리 데이터를 선택하기 위한 쿼리
-	String sql = "select category_name categoryName from category order by category_name asc";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	ResultSet rs = stmt.executeQuery();
-	ArrayList<String> list = new ArrayList<String>();
-	while(rs.next()) {
-		list.add(rs.getString("categoryName"));
-	}
-	
-	conn.close();
+	// -카테고리 목록 메서드 객체 생성
+	ArrayList<HashMap<String,Object>> list = categoryDao.CategoryList();
 %>
 <!DOCTYPE html>
 <html>
@@ -48,9 +33,9 @@
 				<td>
 					<select name="categoryName" class = "form-select">
 						<%
-							for(String s : list) {
+							for(HashMap<String, Object> m : list) {
 						%>
-								<option value="<%=s%>"><%=s%></option>
+								<option value = "<%= m.get("categoryName") %>"><%= m.get("categoryName") %></option>
 						<%
 							}
 						%>
