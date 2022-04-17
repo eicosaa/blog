@@ -24,27 +24,33 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<title>updateBoardForm</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<br>
+
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">게시글 수정</h1>
+	<p>title : <%= board.getBoardTitle() %></p>
+</div>
+
+<!-- 메인 -->
 <div class = "container">
-
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-
-	<div class="container p-3 my-3 bg-dark text-white">
-	<h1>수정</h1>
-	</div>
 	<form method="post" action="<%= request.getContextPath() %>/board/updateBoardAction.jsp">
-		<table class = "table table-info">
+		<table class = "table table-active">
 			<tr>
-				<td>boardNo</td>
-				<td class="table-warning"><input type="text" name="boardNo" value="<%= board.getBoardNo() %>" readonly="readonly" class="form-control"></td>
+				<td class = "text-secondary">boardNo</td>
+				<td class = "bg-light"><input type="text" name="boardNo" value="<%= board.getBoardNo() %>" readonly="readonly" class="form-control"></td>
 			</tr>
 			<tr>
-				<td>categoryName</td>
-				<td class="table-warning">
-					<select name="categoryName" class = "form-select">
+				<td class = "text-secondary">categoryName</td>
+				<td class = "bg-light">
+					<select name="categoryName" class = "form-control">
 						<%
 							for(HashMap<String,Object> s : categoryList) {
 								if(s.get("categoryName").equals(board.getCategoryName())) { // 수정 시 글의 카테고리
@@ -62,21 +68,22 @@
 				</td>
 			</tr>
 			<tr>
-				<td>boardTitle</td>
-				<td class="table-warning"><input type="text" name="boardTitle" value="<%= board.getBoardTitle() %>" class="form-control"></td>
+				<td class = "text-secondary">boardTitle</td>
+				<td class = "bg-light"><input type="text" name="boardTitle" value="<%= board.getBoardTitle() %>" class="form-control"></td>
 			</tr>
 			<tr>
-				<td>boardContent</td>
-				<td class="table-warning">
+				<td class = "text-secondary">boardContent</td>
+				<td class = "bg-light">
 					<textarea rows="5" cols="50" name="boardContent" class="form-control"><%= board.getBoardContent() %></textarea>
 				</td>
 			<tr>	
-				<td>boardPw</td>
-				<td class="table-warning"><input type="password" name="boardPw" value="" class="form-control"></td>
+				<td class = "text-secondary">boardPw</td>
+				<td class = "bg-light"><input type="password" name="boardPw" value="" class="form-control"></td>
 			</tr>
 		</table>
-		<button type="submit" class = "btn btn-outline-warning">수정</button>
-		<a href="<%= request.getContextPath() %>/board//boardList.jsp" class = "btn btn-outline-warning">이전 페이지</a>
+		
+		<button type="submit" class = "btn btn-outline-secondary">수정</button>
+		<a href="<%= request.getContextPath() %>/board//boardList.jsp" class = "btn btn-outline-secondary float-right">이전 페이지</a>
 	</form>
 </div>
 </body>

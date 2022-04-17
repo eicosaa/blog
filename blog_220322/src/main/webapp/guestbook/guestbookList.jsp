@@ -10,7 +10,7 @@
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 5; // -페이지 당 보여줄 글의 수
+	int rowPerPage = 2; // -페이지 당 보여줄 글의 수
 	int beginRow = (currentPage - 1) * rowPerPage; // -시작 행 / beginRow는 currentPage에 따라 달라짐
 	GuestbookDao guestbookDao = new GuestbookDao();
 	ArrayList<Guestbook> list = guestbookDao.selectGuestbookListByPage(beginRow, rowPerPage);
@@ -37,75 +37,81 @@
 <head>
 	<meta charset="UTF-8">
 	<title>guestbookList</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<!-- include 시 컨텍스명(프로젝트이름)을 명시하지 않는다. -->
+<!-- 메인 메뉴 끝 -->
+<!-- -include는 내부 호출이기에 request.getContextPath() 사용 불가 -->
+<br>
+<br>
+
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">GUESTBOOK</h1>
+</div>
+<br>
+			
 <div class = "container">
-	<!-- 메인 메뉴 -->
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-	<!-- include 시 컨텍스명(프로젝트이름)을 명시하지 않는다. -->
-	<!-- 메인 메뉴 끝 -->
-	<!-- -include는 내부 호출이기에 request.getContextPath() 사용 불가 -->
-	<div class="container p-3 my-3 bg-secondary text-white">
-	<h1>guestbook List</h1>
-	</div>
-<div>
 <%
 	for(Guestbook g : list) {
 %>
-		
-		<table class = "table table-active">
+		<table class = "table table-bordered">
 			<tr>
-				<td><%= g.getWriter() %></td>
+				<td width=40 class = "bg-secondary text-white"><%= g.getGuestbookNo() %></td>
+				<td width=500 class = "text-secondary"><%= g.getWriter() %></td>
 				<td><%= g.getCreateDate() %></td>
 			</tr>
 			<tr>
-				<td colspan = "2"><%= g.getGuestbookContent() %></td>
+				<td colspan = "3" class = "bg-light"><%= g.getGuestbookContent() %></td>
 			</tr>
 		</table>
 	<div>
-		<a href="<%= request.getContextPath() %>/guestbook/updateGuestbookForm.jsp?guestbookNo=<%= g.getGuestbookNo() %>" class = "btn btn-outline-dark">수정</a>
-		<a href="<%= request.getContextPath() %>/guestbook/deleteGuestbookForm.jsp?guestbookNo=<%= g.getGuestbookNo() %>" class = "btn btn-outline-dark">삭제</a>
+		<a href="<%= request.getContextPath() %>/guestbook/updateGuestbookForm.jsp?guestbookNo=<%= g.getGuestbookNo() %>" class = "btn btn-outline-secondary">수정</a>
+		<a href="<%= request.getContextPath() %>/guestbook/deleteGuestbookForm.jsp?guestbookNo=<%= g.getGuestbookNo() %>" class = "btn btn-outline-secondary">삭제</a>
 	</div>
 	<br>
 <%
 	}
 %>
-</div>
-<div>
-<%
 
+<%
 	if(currentPage > 1) {
 %>
-		<a href = "<%= request.getContextPath() %>/guestbook/guestbookList.jsp?currentPage=<%= currentPage - 1 %>" class = "btn btn-outline-dark">이전</a>
+		<a href = "<%= request.getContextPath() %>/guestbook/guestbookList.jsp?currentPage=<%= currentPage - 1 %>" class = "btn btn-outline-secondary float-left">이전</a>
 <%
 	}
 
 	if(currentPage < lastPage) {
 %>
-		<a href = "<%= request.getContextPath() %>/guestbook/guestbookList.jsp?currentPage=<%= currentPage + 1 %>" class = "btn btn-outline-dark" >다음</a>
+		<a href = "<%= request.getContextPath() %>/guestbook/guestbookList.jsp?currentPage=<%= currentPage + 1 %>" class = "btn btn-outline-secondary float-right" >다음</a>
 <%
 	}
 %>
 </div>
 <br>	
-	<div class="container p-3 my-3 bg-secondary text-white">
-	<h1>guestbook Insert</h1>
-	</div>
+<div class = "container text-secondary" style = "text-align:center;">
+	<hr width="100%" color="#f3969a" noshade/>
+	<h1 class = "text-secondary">GUESTBOOK INSERT</h1>
+<br>
+
 	<!-- 방명록 입력 -->
 	<form method = "post" action = "<%= request.getContextPath() %>/guestbook/insertGuestbookAction.jsp">
 		<table class = "table table-active">
 			<tr>
-				<td>글쓴이</td>
+				<td class = "text-secondary">글쓴이</td>
 				<td><input type = "text" name = "writer" class="form-control"></td>
-				<td>비밀번호</td>
+				<td class = "text-secondary">비밀번호</td>
 				<td><input type = "password" name = "guestbookPw" class="form-control"></td>
 			</tr>
 			<tr>
 				<td colspan = "4"><textarea name = "guestbookContent" rows = "2" cols = "60" class="form-control"></textarea></td>
 			</tr>
 		</table>
-		<button type = "submit" class = "btn btn-outline-dark">입력</button>
+		<button type = "submit" class = "btn btn-outline-secondary float-right">입력</button>
 	</form>
+</div>
 </body>
 </html>

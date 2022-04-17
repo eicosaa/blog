@@ -46,100 +46,114 @@
 <head>
 	<meta charset="UTF-8">
 	<title>boardList</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
+<style>
+	footer{ position:fixed; 
+	  left:0px; 
+	  bottom:0px; 
+	  height:30px; 
+	  width:100%; 
+	  background:#f3969a; 
+	  color: white; }
+</style>
+
 <body>
-<div class = "container">
-	<!-- 메인 메뉴 -->
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-	
-	<br>
-	<div class = "row">
-		<!-- 좌측 메뉴, category별 게시글 링크 메뉴 -->
-		<div class = "col-sm-2 bg-warning">
-			<br>
-			<ul class="list-group">
-				<li class="list-group-item">= CATEGORY =</li>
-				<%
-					for(HashMap<String, Object> m : categoryList) {
-				%>
-						<li class = "list-group-item">
-							<a href="<%=request.getContextPath()%>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" ><%=m.get("categoryName")%> <span class = "badge bg-warning"><%=m.get("cnt")%></span> </a>
-						</li>
-				<%		
-					}
-				%>
-			</ul> 
-			<br>
-		</div>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">게시글 목록</h1>
+	<p>total : <%= totalRow %></p>
+</div>
 			
-		<!-- 메인 -->
-		<div class = "col-sm-8 bg-light">
-			<div class="container p-3 my-3 bg-dark text-white">
-			<h1>게시글 목록</h1>
-			<p>total : <%= totalRow %></p>
-			</div>
-		
-				<!-- 게시글 리스트 -->
-				<div>
-					<a href="<%= request.getContextPath() %>/board/insertBoardForm.jsp" class = "btn btn-outline-info">게시글 입력</a>
-				</div>
-				<br>
-				<div>
-					<table class = "table table-info">
-						<thead class = "table table-dark">
+<div class = "container">
+<div class="row">
+	<!-- 좌측 -->
+	<div class="col-sm-2">
+		<!-- category별 게시글 링크 메뉴 -->
+		<div style = "text-align:center;">
+			<ul class="list-group">
+			<li class="list-group-item bg-secondary text-light"><b>CATEGORY</b></li>
+			<%
+				for(HashMap<String, Object> m : categoryList) {
+			%>
+					<li class = "list-group-item bg-light">
+						<a href = "<%= request.getContextPath() %>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" class = "text-secondary"><%= m.get("categoryName")%>
+						<span class = "badge bg-warning"><%= m.get("cnt")%></span> 
+						</a>
+					</li>
+			<%		
+				}
+			%>
+			</ul> 
+		</div>
+	</div>	
+	
+	<!-- 메인 -->
+	<div class = "col-sm-10">
+		<!-- 게시글 리스트 -->
+		<div>
+			<table class = "table table-hover">
+				<thead class = "bg-dark text-white">
+					<tr>
+						<th>categoryName</th>
+						<th>boardTitle</th>
+						<th>createDate</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+						for(Board b : boardList) {
+					%>
 							<tr>
-								<th>categoryName</th>
-								<th>boardTitle</th>
-								<th>createDate</th>
+								<td><%= b.getCategoryName() %></td>
+								<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%= b.getBoardNo() %>" class = "text-secondary"><b><%= b.getBoardTitle() %></b></a></td>
+								<td><%= b.getCreateDate() %></td>
 							</tr>
-						</thead>
-						<tbody>
-							<%
-								for(Board b : boardList) {
-							%>
-									<tr>
-										<td><%= b.getCategoryName() %></td>
-										<td><a href="<%=request.getContextPath()%>/board/boardOne.jsp?boardNo=<%= b.getBoardNo() %>"><%= b.getBoardTitle() %></a></td>
-										<td><%= b.getCreateDate() %></td>
-									</tr>
-							<%		
-								}
-							%>
-						</tbody>
-					</table>
-				</div>
-				<!-- 페이징 -->		
-				<div>
-						<!-- 페이지가 만약 10페이지였다면 이전을 누르면 9페이지, 다음을 누르면 11페이지 -->
-						<%
-							if(currentPage > 1) { // 현재 페이지가 1이면 이전 페이지가 존재해서는 안된다.
-						%>
-								<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage - 1 %>&categoryName=<%= categoryName %>" class = "btn btn-info">이전</a>
-						<%
-							}
-						%>
-						
-						<!-- 
-							전체 행   			마지막 페이지 ? 
-							10개					1
-							11,12,13 ~ 20		2
-							21 ~ 30				3
-							31 ~ 40				4
-							
-							마지막 페이지 = 전체 행 / rowPerPage
-						-->
-						<%
-							if(currentPage < lastPage) {
-						%>
-								<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage + 1 %>&categoryName=<%= categoryName %>" class = "btn btn-info">다음</a>
-						<%
-							}
-						%>
-					</div>
-					<br>
-			</div>
+					<%		
+						}
+					%>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 버튼 -->		
+		<div>
+			<!-- 페이징 -->
+			<!-- 페이지가 만약 10페이지였다면 이전을 누르면 9페이지, 다음을 누르면 11페이지 -->
+			<%
+				if(currentPage > 1) { // 현재 페이지가 1이면 이전 페이지가 존재해서는 안된다.
+			%>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage - 1 %>&categoryName=<%= categoryName %>" class = "btn btn-secondary">이전</a>
+			<%
+				}
+			%>
+			<!-- 
+				전체 행   			마지막 페이지 ? 
+				10개					1
+				11,12,13 ~ 20		2
+				21 ~ 30				3
+				31 ~ 40				4
+				
+				마지막 페이지 = 전체 행 / rowPerPage
+			-->
+			<%
+				if(currentPage < lastPage) {
+			%>
+					<a href="<%=request.getContextPath()%>/board/boardList.jsp?currentPage=<%= currentPage + 1 %>&categoryName=<%= categoryName %>" class = "btn btn-secondary">다음</a>
+			<%
+				}
+			%>
+			
+			<!-- 게시글 입력 버튼 -->
+			<a href="<%= request.getContextPath() %>/board/insertBoardForm.jsp" class = "btn btn-outline-secondary float-right">게시글 입력</a>
+		</div>
+		<br>
+	</div>
 </div>
 </div>
+<footer> &nbsp; &nbsp; &nbsp; creators : minseo &nbsp; &nbsp; &nbsp; email : fomalhaut612@naver.com </footer>
 </body>
 </html>

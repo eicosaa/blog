@@ -31,71 +31,79 @@
 <head>
 	<meta charset="UTF-8">
 	<title>boardOne</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<br>
+
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">게시글 보기</h1>
+	<p>title : <%= board.getBoardTitle() %></p>
+</div>
+			
 <div class = "container">
-
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-
-	<br>
-	<div class = "row">
-		<!-- 좌측 메뉴, category별 게시글 링크 메뉴 -->
-		<div class = "col-sm-2 bg-warning">
-			<br>
+<div class="row">
+	<!-- 좌측 -->
+	<div class="col-sm-2">
+		<!-- category별 게시글 링크 메뉴 -->
+		<div style = "text-align:center;">
 			<ul class="list-group">
-				<li class="list-group-item">= CATEGORY =</li>
-				<%
-					for(HashMap<String, Object> m : categoryList) {
-				%>
-						<li class = "list-group-item">
-							<a href="<%= request.getContextPath() %>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" ><%=m.get("categoryName")%> <span class = "badge bg-warning"><%=m.get("cnt")%></span> </a>
-						</li>
-				<%		
-					}
-				%>
+			<li class="list-group-item bg-secondary text-light"><b>CATEGORY</b></li>
+			<%
+				for(HashMap<String, Object> m : categoryList) {
+			%>
+					<li class = "list-group-item bg-light">
+						<a href = "<%= request.getContextPath() %>/board/boardList.jsp?categoryName=<%=m.get("categoryName")%>" class = "text-secondary"><%= m.get("categoryName")%>
+						<span class = "badge bg-warning"><%= m.get("cnt")%></span> 
+						</a>
+					</li>
+			<%		
+				}
+			%>
 			</ul> 
-			<br>				
 		</div>
+	</div>	
 			
 	<!-- 메인 -->
-	<div class = "col-sm-8 bg-light">
-		<div class="container p-3 my-3 bg-dark text-white">
-		<h1>board 게시글</h1>
-	</div>
 	<!-- 게시글 리스트 -->
-	<table class = "table table-info">
+	<div class = "col-sm-10">
+	<table class = "table table-active">
 		<tr>
-			<td>boardNo</td>
-			<td class="table-warning"><%= board.getBoardNo() %></td>
+			<td class = "text-secondary">boardNo</td>
+			<td class = "bg-light"><%= board.getBoardNo() %></td>
 		</tr>
 		<tr>
-			<td>categoryName</td>
-			<td class="table-warning"><%= board.getCategoryName() %></td>
+			<td class = "text-secondary">categoryName</td>
+			<td class = "bg-light"><%= board.getCategoryName() %></td>
 		</tr>
 		<tr>
-			<td>boardTitle</td>
-			<td class="table-warning"><%= board.getBoardTitle() %></td>
+			<td class = "text-secondary">boardTitle</td>
+			<td class = "bg-light"><%= board.getBoardTitle() %></td>
 		</tr>
 		<tr>
-			<td>boardContent</td>
-			<td class="table-warning"><%= board.getBoardContent() %></td>
+			<td class = "text-secondary">boardContent</td>
+			<td class = "bg-light"><%= board.getBoardContent() %></td>
 		</tr>
 		<tr>
-			<td>createDate</td>
-			<td class="table-warning"><%= board.getCreateDate() %></td>
+			<td class = "text-secondary">createDate</td>
+			<td class = "bg-light"><%= board.getCreateDate() %></td>
 		</tr>
 		<tr>
-			<td>updateDate</td>
-			<td class="table-warning"><%= board.getUpdateDate() %></td>
+			<td class = "text-secondary">updateDate</td>
+			<td class = "bg-light"><%= board.getUpdateDate() %></td>
 		</tr>
 	</table>
 		<div>
-			<a href="<%= request.getContextPath() %>/board/updateBoardForm.jsp?boardNo=<%= board.getBoardNo() %>" class = "btn btn-outline-info">수정</a>
-			<a href="<%= request.getContextPath() %>/board/deleteBoardForm.jsp?boardNo=<%= board.getBoardNo() %>" class = "btn btn-outline-info">삭제</a>
-			<a href="<%= request.getContextPath() %>/board/boardList.jsp" class = "btn btn-outline-info">이전 페이지</a>
+			<a href="<%= request.getContextPath() %>/board/updateBoardForm.jsp?boardNo=<%= board.getBoardNo() %>" class = "btn btn-outline-secondary">수정</a>
+			<a href="<%= request.getContextPath() %>/board/deleteBoardForm.jsp?boardNo=<%= board.getBoardNo() %>" class = "btn btn-outline-secondary">삭제</a>
+			<a href="<%= request.getContextPath() %>/board/boardList.jsp" class = "btn btn-outline-secondary float-right">이전 페이지</a>
 		</div>
 	</div>
+</div>
 </div>
 </body>
 </html>
