@@ -17,34 +17,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>deletePhotoForm</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<br>
+
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">PHOTO DELETE</h1>
+	<p>title : <%= photo.getPhotoName() %></p>
+</div>
+			
 <div class = "container">
-
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-
-	<div class="container p-3 my-3 bg-secondary text-white">
-	<h1>photo delete</h1>
-	</div>
 	<!-- 이미지 삭제 -->
 	<form method = "post" action = "<%= request.getContextPath() %>/photo/deletePhotoAction.jsp">
 		<table class = "table table-active">
 			<tr>
-				<td>이미지 번호</td>
-				<td><input type = "text" name = "photoNo" value = "<%= photo.getPhotoNo() %>"class="form-control" readonly></td>
+				<td class = "text-secondary">이미지 번호</td>
+				<td class = "bg-light"><input type = "text" name = "photoNo" value = "<%= photo.getPhotoNo() %>"class="form-control" readonly></td>
 			</tr>
 			<tr>
-				<td>이미지</td>
-				<td><input type = "text" name = "photoName" value = "<%= photo.getPhotoName() %>"class="form-control" readonly></td>
+				<td class = "text-secondary">이미지</td>
+				<td class = "bg-light"><input type = "text" name = "photoName" value = "<%= photo.getPhotoName() %>"class="form-control" readonly></td>
 			</tr>
 			<tr>
-				<td>비밀번호</td>
-				<td><input type = "password" name = "photoPw" class="form-control"></td>
+				<td class = "text-secondary">비밀번호</td>
+				<td class = "bg-light"><input type = "password" name = "photoPw" class="form-control"></td>
 			</tr>
 		</table>
-		<button type = "submit" class = "btn btn-outline-dark">삭제</button>
-		<a href="<%= request.getContextPath() %>/photo/photoList.jsp" class = "btn btn-outline-dark">이전 페이지</a>
+		<button type = "submit" class = "btn btn-outline-secondary">삭제</button>
+		<a href="<%= request.getContextPath() %>/photo/photoList.jsp" class = "btn btn-outline-secondary float-right">이전 페이지</a>
 	</form>
 </div>
 </body>

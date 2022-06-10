@@ -13,40 +13,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>selectPdfOne</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<br>
+
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">PHOTO ONE</h1>
+	<p>title : <%= pdf.getPdfOriginalName() %></p>
+</div>
+			
 <div class = "container">
 	
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-
-	<div class="container p-3 my-3 bg-secondary text-white">
-	<h1>selectPdfOne</h1>
-	</div>
-	
 	<div>
-	<table class = "table table-info">
+	<table class = "table table-active">
 		<tr>
-			<td>pdfNo</td>
-			<td class="table-warning"><%= pdf.getPdfNo() %></td>
+			<td class = "text-secondary">pdfNo</td>
+			<td class = "bg-light"><%= pdf.getPdfNo() %></td>
 		</tr>
 		<tr>
-			<td>pdf</td>
-			<td class="table-warning"><a href="<%=request.getContextPath()%>/uploadPdf/<%= pdf.getPdfOriginalName() %>"><%= pdf.getPdfOriginalName() %></a></td>
+			<td class = "text-secondary">pdf</td>
+			<td class = "bg-light"><a href="<%=request.getContextPath()%>/uploadPdf/<%= pdf.getPdfOriginalName() %>"><%= pdf.getPdfOriginalName() %></a></td>
 		</tr>
 		<tr>
-			<td>writer</td>
-			<td class="table-warning"><%= pdf.getWriter() %></td>
+			<td class = "text-secondary">writer</td>
+			<td class = "bg-light"><%= pdf.getWriter() %></td>
 		</tr>
 		<tr>
-			<td>createDate</td>
-			<td class="table-warning"><%= pdf.getCreateDate() %></td>
+			<td class = "text-secondary">createDate</td>
+			<td class = "bg-light"><%= pdf.getCreateDate() %></td>
 		</tr>
 	</table>
 	</div>
 		<div>
-			<a href="<%= request.getContextPath() %>/pdf/deletePdfForm.jsp?pdfNo=<%= pdf.getPdfNo() %>" class = "btn btn-outline-info">삭제</a>
-			<a href="<%= request.getContextPath() %>/pdf/pdfList.jsp" class = "btn btn-outline-info">이전 페이지</a>
+			<a href="<%= request.getContextPath() %>/pdf/deletePdfForm.jsp?pdfNo=<%= pdf.getPdfNo() %>" class = "btn btn-outline-secondary">삭제</a>
+			<a href="<%= request.getContextPath() %>/pdf/pdfList.jsp" class = "btn btn-outline-secondary float-right">이전 페이지</a>
 		</div>
 
 </div>		

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.ArrayList" %>    
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
@@ -24,21 +23,22 @@
 <head>
 	<meta charset="UTF-8">
 	<title>photoList</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
+
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<br>
+
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">PHOTO LIST</h1>
+</div>
+<br>
+			
 <div class = "container">
-	<!-- 메인 메뉴 -->
-	
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
-	
-	<!-- include 시 컨텍스명(프로젝트이름)을 명시하지 않는다. -->
-	<!-- 메인 메뉴 끝 -->
-	<!-- -include는 내부 호출이기에 request.getContextPath() 사용 불가 -->
-	
-	<div class="container p-3 my-3 bg-secondary text-white">
-	<h1>이미지 목록</h1>
-	</div>
 	
 <div>
 <table class = "table table-active">
@@ -86,20 +86,19 @@
 </table>
 <div>
 <%
-
 	if(currentPage > 1) {
 %>
-		<a href = "<%= request.getContextPath() %>/photo/photoList.jsp?currentPage=<%= currentPage - 1 %>" class = "btn btn-outline-dark">이전</a>
+		<a href = "<%= request.getContextPath() %>/photo/photoList.jsp?currentPage=<%= currentPage - 1 %>" class = "btn btn-outline-secondary">이전</a>
 <%
 	}
 
 	if(currentPage < lastPage) {
 %>
-		<a href = "<%= request.getContextPath() %>/photo/photoList.jsp?currentPage=<%= currentPage + 1 %>" class = "btn btn-outline-dark" >다음</a>
+		<a href = "<%= request.getContextPath() %>/photo/photoList.jsp?currentPage=<%= currentPage + 1 %>" class = "btn btn-outline-secondary" >다음</a>
 <%
 	}
 %>
-		<a href="<%= request.getContextPath() %>/photo/insertPhotoForm.jsp" class = "btn btn-outline-dark">이미지 등록</a>
+		<a href="<%= request.getContextPath() %>/photo/insertPhotoForm.jsp" class = "btn btn-outline-secondary float-right">이미지 등록</a>
 </div>
 </body>
 </html>

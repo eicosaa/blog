@@ -22,16 +22,21 @@
 <head>
 	<meta charset="UTF-8">
 	<title>pdfList</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/minty/bootstrap.css">
 </head>
 <body>
-<div class = "container">
-	<!-- 메인 메뉴 -->
-	<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<!-- 메인 메뉴 -->
+<jsp:include page="/inc/upMenu.jsp"></jsp:include>
+<br>
+<br>
 
-	<div class="container p-3 my-3 bg-secondary text-white">
-	<h1>PDF 목록</h1>
-	</div>
+<!-- 상단 제목 -->
+<div class = "container text-secondary" style = "text-align:center;">
+	<h1 class = "text-secondary">PDF LIST</h1>
+</div>
+
+<br>			
+<div class = "container">
 	
 <div>
 <%
@@ -54,17 +59,17 @@
 
 	if(currentPage > 1) {
 %>
-		<a href = "<%= request.getContextPath() %>/pdf/pdfList.jsp?currentPage=<%= currentPage - 1 %>" class = "btn btn-outline-dark">이전</a>
+		<a href = "<%= request.getContextPath() %>/pdf/pdfList.jsp?currentPage=<%= currentPage - 1 %>" class = "btn btn-outline-secondary">이전</a>
 <%
 	}
 
 	if(currentPage < lastPage) {
 %>
-		<a href = "<%= request.getContextPath() %>/pdf/pdfList.jsp?currentPage=<%= currentPage + 1 %>" class = "btn btn-outline-dark" >다음</a>
+		<a href = "<%= request.getContextPath() %>/pdf/pdfList.jsp?currentPage=<%= currentPage + 1 %>" class = "btn btn-outline-secondary" >다음</a>
 <%
 	}
 %>
-		<a href="<%= request.getContextPath() %>/pdf/insertPdfForm.jsp" class = "btn btn-outline-dark">PDF 등록</a>
+		<a href="<%= request.getContextPath() %>/pdf/insertPdfForm.jsp" class = "btn btn-outline-secondary float-right">PDF 등록</a>
 </div>
 </body>
 </html>
